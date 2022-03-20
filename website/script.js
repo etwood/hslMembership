@@ -1,19 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
     const chart = Highcharts.chart('container', {
         chart: {
-            type: 'bar'
+            type: 'column'
         },
         title: {
-            text: 'Fruit Consumption'
+            text: 'HeatSync Labs Membership'
         },
         xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
+            categories: ['Basic', 'Associate', 'Plus']
         },
         yAxis: {
             title: {
-                text: 'Fruit eaten'
+                text: 'Members'
             }
         },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },        
         series: [{
             name: 'Jane',
             data: [1, 0, 4]
