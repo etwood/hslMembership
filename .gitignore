@@ -1,5 +1,5 @@
 # json output files
-monthlyTotals.json
+**/monthlyTotals.json
 
 # Logs
 logs
