@@ -37,31 +37,26 @@ fs.createReadStream('monthlyTotals.csv')
   .pipe(csv())
   .on('data', (data) => addMonthToHighchartsArrays(data))
   .on('end', () => {
-    const resultsCounts = [];
-    const resultAmounts = [];
+    const results = {
+      months: [],
+      amounts: [],
+      counts: []
+    };
 
-    resultAmounts.push({name: 'month', data: dateStrings});
-    resultAmounts.push({name: 'otherAmount', data: otherAmount});
-    resultAmounts.push({name: 'basicAmount', data: basicAmount});
-    resultAmounts.push({name: 'associateAmount', data: associateAmount});
+    results.months = dateStrings;
 
-    resultsCounts.push({name: 'month', data: dateStrings});
-    resultsCounts.push({name: 'otherCount', data: otherCount});
-    resultsCounts.push({name: 'basicCount', data: basicCount});
-    resultsCounts.push({name: 'associateCount', data: associateCount});
+    results.amounts.push({name: 'Plus', data: otherAmount});
+    results.amounts.push({name: 'Basic', data: basicAmount});
+    results.amounts.push({name: 'Associate', data: associateAmount});
+
+    results.counts.push({name: 'Plus', data: otherCount});
+    results.counts.push({name: 'Basic', data: basicCount});
+    results.counts.push({name: 'Associate', data: associateCount});
     
-    fs.writeFile('monthlyAmounts.json', JSON.stringify(resultAmounts, null, 2), err => {
+    fs.writeFile('hslMembership.json', JSON.stringify(results, null, 2), err => {
       if (err) {
         console.error(err)
         return
       }
     })
-
-    fs.writeFile('monthlyCounts.json', JSON.stringify(resultsCounts, null, 2), err => {
-      if (err) {
-        console.error(err)
-        return
-      }
-    })
-
   });

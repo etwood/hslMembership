@@ -1,62 +1,61 @@
 document.addEventListener('DOMContentLoaded', function () {
     Highcharts.getJSON(
-        'monthlyCounts.json',
-        function (countsData) {
-            const countsChart = Highcharts.chart('counts', {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'HeatSync Labs Membership'
-                },
-                xAxis: {
-                    categories: ['Basic', 'Associate', 'Plus']
-                },
-                yAxis: {
-                    title: {
-                        text: 'Members'
-                    }
-                },
-                plotOptions: {
-                    column: {
-                        stacking: 'normal',
-                        dataLabels: {
-                            enabled: true
-                        }
-                    }
-                },        
-                series: countsData
-            });
+        'hslMembership.json',
+        function (result) {
+            createCountsChart(result);
+            createAmountsChart(result);
         }
     );
-    Highcharts.getJSON(
-        'monthlyAmounts.json',
-        function (amountsData) {
-            const countsChart = Highcharts.chart('amounts', {
-                chart: {
-                    type: 'column'
-                },
+
+    function createCountsChart(result) {
+        Highcharts.chart('counts', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'HeatSync Labs Membership'
+            },
+            xAxis: {
+                categories: result.months
+            },
+            yAxis: {
                 title: {
-                    text: 'HeatSync Labs Membership Revenue'
-                },
-                xAxis: {
-                    categories: ['Basic', 'Associate', 'Plus']
-                },
-                yAxis: {
-                    title: {
-                        text: 'Revenue'
-                    }
-                },
-                plotOptions: {
-                    column: {
-                        stacking: 'normal',
-                        dataLabels: {
-                            enabled: true
-                        }
-                    }
-                },        
-                series: amountsData
-            });
-        }
-    );
+                    text: 'Members'
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal'
+                }
+            },
+            colors: ["#7cb5ec", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1", "#434348"],
+            series: result.counts
+        });
+    }
+
+    function createAmountsChart(result) {
+        const countsChart = Highcharts.chart('amounts', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'HeatSync Labs Member Recurring Donations'
+            },
+            xAxis: {
+                categories: result.months
+            },
+            yAxis: {
+                title: {
+                    text: 'Donations'
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal'
+                }
+            },        
+            colors: ["#7cb5ec", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1", "#434348"],
+            series: result.amounts
+        });
+    }    
 });
