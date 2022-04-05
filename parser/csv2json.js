@@ -3,12 +3,14 @@ const fs = require('fs')
 
 const dates = [];
 const dateStrings = [];
+const otherAmount = [];
 const associateAmount = [];
 const basicAmount = [];
-const otherAmount = [];
+const plusAmount = [];
+const otherCount = [];
 const associateCount = [];
 const basicCount = [];
-const otherCount = [];
+const plusCount = [];
 
 function addMonthToHighchartsArrays(data) {
   const year = parseInt(data.dateNumeric.substr(0,4));
@@ -20,20 +22,24 @@ function addMonthToHighchartsArrays(data) {
 
   const fAssociateAmount = parseFloat(data.associateAmount.substr(1));
   const fBasicAmount = parseFloat(data.basicAmount.substr(1));
+  const fPlusAmount = parseFloat(data.plusAmount.substr(1));
   const fTotalAmount = parseFloat(data.totalAmount.substr(1));
   associateAmount.push(fAssociateAmount);
   basicAmount.push(fBasicAmount);
-  otherAmount.push(fTotalAmount - fAssociateAmount - fBasicAmount);
+  plusAmount.push(fPlusAmount);
+  otherAmount.push(fTotalAmount - fAssociateAmount - fBasicAmount - fPlusAmount);
 
   const iAssociateCount = parseInt(data.associateCount);
   const iBasicCount = parseInt(data.basicCount);
+  const iPlusCount = parseInt(data.plusCount);
   const iTotalCount = parseInt(data.totalCount);
   associateCount.push(iAssociateCount);
   basicCount.push(iBasicCount);
-  otherCount.push(iTotalCount - iAssociateCount - iBasicCount);
+  plusCount.push(iPlusCount);
+  otherCount.push(iTotalCount - iAssociateCount - iBasicCount - iPlusCount);
 }
 
-fs.createReadStream('monthlyTotals.csv')
+fs.createReadStream('MonthlyTotalsWithPlus.csv')
   .pipe(csv())
   .on('data', (data) => addMonthToHighchartsArrays(data))
   .on('end', () => {
@@ -45,13 +51,15 @@ fs.createReadStream('monthlyTotals.csv')
 
     results.months = dateStrings;
 
-    results.amounts.push({name: 'Plus', data: otherAmount});
+    results.amounts.push({name: 'Plus', data: plusAmount});
     results.amounts.push({name: 'Basic', data: basicAmount});
     results.amounts.push({name: 'Associate', data: associateAmount});
+    results.amounts.push({name: 'Other', data: otherAmount});
 
-    results.counts.push({name: 'Plus', data: otherCount});
+    results.counts.push({name: 'Plus', data: plusCount});
     results.counts.push({name: 'Basic', data: basicCount});
     results.counts.push({name: 'Associate', data: associateCount});
+    results.counts.push({name: 'Other', data: otherCount});
     
     fs.writeFile('hslMembership.json', JSON.stringify(results, null, 2), err => {
       if (err) {

@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     stacking: 'normal'
                 }
             },
-            colors: ["#7cb5ec", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1", "#434348"],
+            colors: ["#7cb5ec", "#90ed7d", "#f7a35c", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1", "#434348", "#8085e9", "#f15c80"],
             series: result.counts
         });
     }
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     stacking: 'normal'
                 }
             },        
-            colors: ["#7cb5ec", "#90ed7d", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1", "#434348"],
+            colors: ["#7cb5ec", "#90ed7d", "#f7a35c", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1", "#434348", "#8085e9", "#f15c80"],
             series: result.amounts
         });
     }    
